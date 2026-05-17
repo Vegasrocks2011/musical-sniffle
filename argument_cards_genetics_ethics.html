@@ -1,0 +1,218 @@
+
+<style>
+* { box-sizing: border-box; }
+.wrap { padding: 1.5rem 0; font-size: 15px; color: var(--color-text-primary); }
+.instruction { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: var(--color-background-secondary); border-radius: var(--border-radius-md); }
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; align-items: center; }
+.filter-label { font-size: 12px; color: var(--color-text-secondary); margin-right: 4px; }
+.fbtn { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); transition: all 0.12s; }
+.fbtn.on { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.arg-card { border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 8px; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.perspective-badge { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.stance-badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.for-badge { background: #EAF3DE; color: #27500A; }
+.against-badge { background: #FCEBEB; color: #791F1F; }
+.card-claim { font-size: 14px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; }
+.card-reasoning { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+.card-question { font-size: 12px; color: var(--color-text-secondary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 8px; font-style: italic; }
+.p-science { background: #E6F1FB; color: #0C447C; }
+.p-ethics { background: #EEEDFE; color: #3C3489; }
+.p-economic { background: #FAEEDA; color: #633806; }
+.p-religious { background: #E1F5EE; color: #085041; }
+.p-rights { background: #FBEAF0; color: #72243E; }
+.p-environment { background: #EAF3DE; color: #27500A; }
+.hidden { display: none; }
+.group-mode { margin-top: 1.5rem; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 1.25rem; }
+.group-header { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.75rem; }
+.group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.group-box { border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 0.75rem; font-size: 13px; }
+.group-name { font-weight: 500; margin-bottom: 4px; color: var(--color-text-primary); }
+.group-gets { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Argument cards — genetics ethics debate, iGCSE Biology</h2>
+
+  <div class="instruction">
+    Each group receives one perspective. Your job: understand these arguments well enough to explain them to someone who disagrees. You are not just listing — you are making the strongest possible case from your angle.
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Filter by perspective:</span>
+    <button class="fbtn on" onclick="filter('all', this)">All</button>
+    <button class="fbtn" onclick="filter('science', this)">Scientific</button>
+    <button class="fbtn" onclick="filter('ethics', this)">Ethical</button>
+    <button class="fbtn" onclick="filter('economic', this)">Economic</button>
+    <button class="fbtn" onclick="filter('religious', this)">Religious / cultural</button>
+    <button class="fbtn" onclick="filter('rights', this)">Rights-based</button>
+    <button class="fbtn" onclick="filter('environment', this)">Environmental</button>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Show:</span>
+    <button class="fbtn on" onclick="filterStance('all', this)">Both sides</button>
+    <button class="fbtn" onclick="filterStance('for', this)">Arguments for</button>
+    <button class="fbtn" onclick="filterStance('against', this)">Arguments against</button>
+  </div>
+
+  <div class="cards-grid" id="cards-grid"></div>
+
+  <div class="group-mode">
+    <div class="group-header">Group assignment guide</div>
+    <div class="group-grid">
+      <div class="group-box">
+        <div class="group-name">Group 1</div>
+        <div class="group-gets">Scientific perspective — argue from evidence, data and biological facts only</div>
+      </div>
+      <div class="group-box">
+        <div class="group-name">Group 2</div>
+        <div class="group-gets">Economic perspective — who benefits financially? Who bears the cost?</div>
+      </div>
+      <div class="group-box">
+        <div class="group-name">Group 3</div>
+        <div class="group-gets">Rights-based perspective — whose rights matter? Consent, autonomy, future generations</div>
+      </div>
+      <div class="group-box">
+        <div class="group-name">Group 4</div>
+        <div class="group-gets">Environmental perspective — what happens to ecosystems, biodiversity, wild populations?</div>
+      </div>
+      <div class="group-box">
+        <div class="group-name">Group 5</div>
+        <div class="group-gets">Ethical / philosophical perspective — is it right even if it works? Ends vs means</div>
+      </div>
+      <div class="group-box">
+        <div class="group-name">Group 6</div>
+        <div class="group-gets">Religious / cultural perspective — how do different belief systems approach modifying life?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const cards = [
+  {
+    id: 1, perspective: 'science', stance: 'for',
+    claim: 'GM crops demonstrably increase yield',
+    reasoning: 'Herbicide-resistant crops reduce competition from weeds, giving the crop more water, light and minerals. Studies show yield increases of 20–25% in some regions. This is measurable, peer-reviewed evidence.',
+    question: 'What evidence would change your mind about this?'
+  },
+  {
+    id: 2, perspective: 'science', stance: 'against',
+    claim: 'Gene transfer to wild plants is a proven risk',
+    reasoning: 'Cross-pollination between GM crops and wild relatives has been documented. Herbicide-resistant genes can spread, creating weeds that are much harder to control. This is not theoretical — it has been observed.',
+    question: 'How certain do we need to be about a risk before it should stop a technology?'
+  },
+  {
+    id: 3, perspective: 'economic', stance: 'for',
+    claim: 'Lower costs benefit farmers in developing countries',
+    reasoning: 'If farmers spray once instead of weeding repeatedly, labour costs fall. Higher yields mean more income per hectare. In lower-income countries, this can be transformative for small-scale farmers.',
+    question: 'Who actually owns most GM crop patents — and does that change the argument?'
+  },
+  {
+    id: 4, perspective: 'economic', stance: 'against',
+    claim: 'GM seeds create dependency on corporations',
+    reasoning: 'Farmers must buy new GM seed each year from large companies — they cannot save and replant their own seed. This transfers economic power away from farmers and into the hands of biotechnology companies.',
+    question: 'Is this an argument against GM crops, or against the business model around them?'
+  },
+  {
+    id: 5, perspective: 'rights', stance: 'for',
+    claim: 'People have the right to use available science to reduce suffering',
+    reasoning: 'If a technology can prevent vitamin A deficiency, famine or genetic disease, restricting it denies people a potential benefit. The right to access beneficial science is a matter of justice.',
+    question: 'Does the right to benefit from science include the right to take risks with it?'
+  },
+  {
+    id: 6, perspective: 'rights', stance: 'against',
+    claim: 'Future generations cannot consent to permanent genetic changes',
+    reasoning: 'Germline gene editing (changing embryo DNA) creates permanent changes passed to all descendants. Those individuals never get to choose. This violates a fundamental principle — you cannot give consent on behalf of someone who does not yet exist.',
+    question: 'Is there a difference between changing your own genes and changing the genes of your children?'
+  },
+  {
+    id: 7, perspective: 'environment', stance: 'for',
+    claim: 'GM crops can reduce the total amount of pesticide used',
+    reasoning: 'Some GM crops are engineered to be pest-resistant, meaning less insecticide is needed overall. Less chemical use can benefit soil health, insects and surrounding ecosystems.',
+    question: 'Does this benefit outweigh the risk of gene spread to wild plants?'
+  },
+  {
+    id: 8, perspective: 'environment', stance: 'against',
+    claim: 'Herbicide-resistant crops can reduce biodiversity',
+    reasoning: 'If all weeds are killed efficiently, the insects, birds and animals that depend on them also decline. A field of one GM crop with no weeds is an ecological desert. Short-term food gains may cause long-term ecosystem damage.',
+    question: 'How do you weigh human food security against ecosystem biodiversity?'
+  },
+  {
+    id: 9, perspective: 'ethics', stance: 'for',
+    claim: 'If it saves lives, the outcome justifies the method',
+    reasoning: 'A consequentialist argument: if GM insulin has kept millions of diabetics alive since 1982 with no significant harm, then the outcome is what matters. We judge technologies by their results, not by abstract principles.',
+    question: 'Are there outcomes so harmful that no benefit could justify them?'
+  },
+  {
+    id: 10, perspective: 'ethics', stance: 'against',
+    claim: 'Some boundaries should not be crossed regardless of benefit',
+    reasoning: 'A deontological argument: altering the fundamental genetic code of living things — especially humans — crosses a moral line. Some things are wrong in principle, even if they produce good results. The process matters, not just the outcome.',
+    question: 'Who gets to decide where the line is — and on what basis?'
+  },
+  {
+    id: 11, perspective: 'religious', stance: 'for',
+    claim: 'Many religious traditions support relieving human suffering through knowledge',
+    reasoning: 'Islamic bioethics broadly permits genetic intervention when the intention is to cure disease and reduce suffering (maslaha — public interest). Similarly, some Christian traditions see using science to heal as a moral duty.',
+    question: 'Does religious support depend on the purpose of the intervention?'
+  },
+  {
+    id: 12, perspective: 'religious', stance: 'against',
+    claim: 'Altering life at the genetic level is seen by many as overstepping human authority',
+    reasoning: 'Across several traditions, there is concern that redesigning organisms — especially humans — represents an attempt to "play God." The natural order is seen as having moral significance that should not be disrupted by human ambition.',
+    question: 'Is this argument weakened by the fact that selective breeding has been practiced for thousands of years?'
+  }
+];
+
+let activeFilter = 'all';
+let activeStance = 'all';
+
+const pLabels = {
+  science: 'Scientific',
+  economic: 'Economic',
+  rights: 'Rights-based',
+  environment: 'Environmental',
+  ethics: 'Ethical',
+  religious: 'Religious / cultural'
+};
+
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+  cards.forEach(c => {
+    const pMatch = activeFilter === 'all' || c.perspective === activeFilter;
+    const sMatch = activeStance === 'all' || c.stance === activeStance;
+    if (!pMatch || !sMatch) return;
+    const div = document.createElement('div');
+    div.className = 'arg-card';
+    div.innerHTML = `
+      <div class="card-top">
+        <span class="perspective-badge p-${c.perspective}">${pLabels[c.perspective]}</span>
+        <span class="stance-badge ${c.stance === 'for' ? 'for-badge' : 'against-badge'}">${c.stance === 'for' ? 'For' : 'Against'}</span>
+      </div>
+      <div class="card-claim">${c.claim}</div>
+      <div class="card-reasoning">${c.reasoning}</div>
+      <div class="card-question">${c.question}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function filter(val, btn) {
+  activeFilter = val;
+  document.querySelectorAll('.filter-row:first-of-type .fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderCards();
+}
+
+function filterStance(val, btn) {
+  activeStance = val;
+  document.querySelectorAll('.filter-row:nth-of-type(2) .fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderCards();
+}
+
+renderCards();
+</script>
